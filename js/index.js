@@ -1,7 +1,5 @@
 'use strict';
 
-
-
 function getQuote(category) {
     const url = `https://api.chucknorris.io/jokes/random?category=${category}`;
     get(url).then(function (response) {
@@ -13,33 +11,19 @@ function getCategories() {
     const url = 'https://api.chucknorris.io/jokes/categories';
     get(url).then(function (response) {
         buildCategoryList(response);
-
-
-        
     })
 }
 
 function updateBody(quote) {
-    const main = document.querySelector('#modal');
-
-    // Find and remove any existing paragraphs.
-    const paragraphs = document.querySelectorAll('p');
-    if (paragraphs.length > 0) {
-        paragraphs.forEach(function (paragraph) {
-            paragraph.remove();
-        });
-    }
-
-    const paragraph = document.createElement('p');
+    const paragraph = document.querySelector('#modal p');
     paragraph.innerHTML = quote;
-    main.appendChild(paragraph);
+    toggleModal();
 }
 
-
 function buildCategoryList(categoryList) {
-    
+    // Filter out the 'explicit', 'religion', and 'political' categories
     const filteredList = categoryList.filter(function (category) {
-        if (category !== 'explicit' && category !== 'celebrity' && category !== 'animal') {
+        if (category !== 'explicit' && category !== 'political' && category !== 'religion') {
             return category;
         }
     });
@@ -51,14 +35,20 @@ function buildCategoryList(categoryList) {
         categoryOption.value = category;
         categoryOption.text = category;
         categorySelect.appendChild(categoryOption);
-
-       
     });
     form.appendChild(categorySelect);
+
     categorySelect.addEventListener('change', function (event) {
         getQuote(event.target.value);
-})
+    })
 }
-toggleModal();
+
+closeModal.addEventListener('click', toggleModal);
+
+function toggleModal() {
+    const modalOverlay = document.querySelector('#overlay');
+    modalOverlay.classList.toggle('visible');
+}
+
 getCategories();
-getQuote('dev');
+getQuote('career');er
