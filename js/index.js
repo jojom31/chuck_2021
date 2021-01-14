@@ -1,4 +1,6 @@
 'use strict';
+const modalButton = document.querySelector('#getQuote');
+let category = "dev";
 
 function getQuote(category) {
     const url = `https://api.chucknorris.io/jokes/random?category=${category}`;
@@ -13,11 +15,18 @@ function getCategories() {
         buildCategoryList(response);
     })
 }
+modalButton.addEventListener('click', function(e) {
+    e.preventDefault();
+    getQuote(category);
+
+});
+
+
 
 function updateBody(quote) {
-    const paragraph = document.querySelector('#modal p');
+    const paragraph = document.querySelector('#chuckSays');
     paragraph.innerHTML = quote;
-    toggleModal();
+    
 }
 
 function buildCategoryList(categoryList) {
@@ -43,12 +52,12 @@ function buildCategoryList(categoryList) {
     })
 }
 
-closeModal.addEventListener('click', toggleModal);
 
-function toggleModal() {
-    const modalOverlay = document.querySelector('#overlay');
-    modalOverlay.classList.toggle('visible');
-}
+
+// function toggleModal() {
+//     const modalOverlay = document.querySelector('#overlay');
+//     modalOverlay.classList.toggle('visible');
+// }
 
 getCategories();
-getQuote('career');er
+getQuote('career');
